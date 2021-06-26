@@ -1,1 +1,1 @@
-# glequilib
+# Equirectangular Projection OpenGL
