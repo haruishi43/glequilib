@@ -6,7 +6,7 @@ I'm not a glx guy... shadertoy.com is cool though
 References:
 - https://www.shadertoy.com/view/4lK3DK
 - https://www.shadertoy.com/view/MlfSz7
-
+- https://www.shadertoy.com/view/wdtXWj
 
 
 ```
@@ -131,5 +131,44 @@ void mainImage(out vec4 fragColor, vec2 fragCoord)
     vec2 rotatedSphericalCoord = worldToSpherical(rotatedWorldSphCoord, 1.0);
 
     fragColor = texture(iChannel0, rotatedSphericalCoord / vec2(2.*M_PI, M_PI), 0.0);
+}
+```
+
+
+```
+void mainImage( out vec4 fragColor, in vec2 fragCoord )
+{
+    // Normalized pixel coordinates (from 0 to 1)
+    vec2 uv = fragCoord/iResolution.xy - 0.5;
+    float aspect = iResolution.y / iResolution.x;
+    uv.x /= aspect;
+	vec2 mouse = iMouse.xy/iResolution.xy - 0.5;
+
+    // Time varying pixel color
+    vec3 col = vec3(0.);
+    float ztheta = -mouse.y * 3.14159;
+    float xtheta = mouse.x * 3.14159;
+    mat3 zrot = mat3(
+        vec3(cos(ztheta), sin(ztheta), 0.),
+        vec3(-sin(ztheta), cos(ztheta), 0.),
+        vec3(0., 0., 1.)
+    );
+    mat3 xrot = mat3(
+        vec3(cos(xtheta), 0., -sin(xtheta)),
+        vec3(0., 1., 0.),
+        vec3(sin(xtheta), 0., cos(xtheta))
+    );
+
+    vec3 shift = vec3(
+        cos(uv.x),
+        sin(uv.y),
+        sin(uv.x)
+    );
+
+    vec3 look = normalize(xrot * zrot * shift);
+    col = texture(iChannel0, look).rgb;
+
+    // Output to screen
+    fragColor = vec4(col,1.0);
 }
 ```
