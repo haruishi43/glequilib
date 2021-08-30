@@ -67,8 +67,10 @@ pygame.font.init()
 
 screen_size = [1000, 500]
 multisample = 0
-icon = pygame.Surface((1, 1)); icon.set_alpha(0); pygame.display.set_icon(icon)
-pygame.display.set_caption("Off-Center Map Projections - Ian Mallett - v.1.1.0 - 2019")
+icon = pygame.Surface((1, 1))
+icon.set_alpha(0)
+pygame.display.set_icon(icon)
+pygame.display.set_caption("Off-Center Map Projections - Haruya Ishikawa - v.0.0.1 - 2021")
 if multisample:
     pygame.display.gl_set_attribute(pgloc.GL_MULTISAMPLEBUFFERS, 1)
     pygame.display.gl_set_attribute(pgloc.GL_MULTISAMPLESAMPLES, multisample)
